@@ -1,5 +1,5 @@
 TODO:
-  - [x] allow port and storage root to be passed as flags
+  - [ ] allow port and storage root to be passed as flags
   - [ ] testing
     - [ ] note -> since net uses file writes for response this can be mocked and caught
   - [ ] implement passive mode (EPSV)
