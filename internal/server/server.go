@@ -2,8 +2,8 @@ package server
 
 import (
 	"fmt"
+	"go-ftp-server/internal/server/ftp"
 	"log/slog"
-	"music-server/internal/server/ftp"
 	"net"
 	"os"
 	"path/filepath"

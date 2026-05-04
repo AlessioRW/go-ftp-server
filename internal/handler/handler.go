@@ -1,6 +1,6 @@
 package handler
 
-import "music-server/internal/server"
+import "go-ftp-server/internal/server"
 
 func Run() {
 	server.InitServer()

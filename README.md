@@ -21,4 +21,4 @@ If you're interested in writing your own Golang FTP server, it's an excellent st
     - [ ] deny paths which evaulate outside of storage root 
   - [ ] users and passwords?
   - [ ] containerize
-  - [ ] rename go module to not be 'music-server'
+  - [x] rename go module to not be 'music-server'
