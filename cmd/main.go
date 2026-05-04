@@ -1,8 +1,8 @@
 package main
 
 import (
-	"music-server/internal/handler"
-	"music-server/internal/logging"
+	"go-ftp-server/internal/handler"
+	"go-ftp-server/internal/logging"
 )
 
 func main() {
