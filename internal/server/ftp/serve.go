@@ -46,8 +46,11 @@ func Serve(c *Conn) {
 			c.size(args)
 		case "TYPE": // set data type expected by client
 			c.setDataType(args)
-		case "EPSV": // set client to use passive mode (does this also need a apsv/active mode)
-			// TODO: implement me
+		case "PASV": // set client to use passive mode (NOTE: find client to test PASV with)
+			c.respond(status502)
+			// c.pasv(args)
+		case "EPSV": // set client to use extended passive mode
+			c.epsv()
 		case "QUIT": // close connection
 			c.respond(status221)
 			return

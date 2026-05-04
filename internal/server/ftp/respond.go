@@ -14,6 +14,7 @@ const (
 	status220 = "220 Service ready for new user."
 	status221 = "221 Service closing control connection."
 	status226 = "226 Closing data connection. Requested file action successful."
+	status229 = "229 Entering Extended Passive Mode (|||%v|)."
 	status230 = "230 User %s logged in, proceed."
 	status257 = "257 \"%v\" is the current directory"
 	status425 = "425 Can't open data connection."

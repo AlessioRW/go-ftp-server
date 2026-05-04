@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 )
 
-const port = 8080 // make this an arg?
+const port = 21
 const rootDir = "store"
 
 func InitServer() {
