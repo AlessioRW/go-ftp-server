@@ -15,8 +15,6 @@ If you're interested in writing your own Golang FTP server, it's an excellent st
   - [ ] implement passive mode (PASV)
     - [x] implement extended passive mode (EPSV)
   - [ ] implement IPv6 in EPRT
-  - [ ] implement custom commands?
-    - [ ] this requires a FTP client supporting custom commands
   - [ ] CWD bounds, restrict file system access
     - [ ] deny paths which evaulate outside of storage root 
   - [ ] users and passwords?
