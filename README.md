@@ -6,7 +6,7 @@ An implementation of an FTP server in Golang.
 
 Originally following [this article](https://medium.com/better-programming/how-to-write-a-concurrent-ftp-server-in-go-part-1-3904f2e3a9e5) though I found it's missing or incorrectly implementing the FTP commands and requires paying to view the follow up article.
 
-If you're interested in writing your own Golang FTP server, it's an excellent starting point and the issues in the article encourage you to search and discover the correct implementation yourself.
+I've had trouble with my implementation when using termscp and Cyberduck as the client but not had any issues with using ncftp on the command line.
 
 ## TODO
   - [ ] allow port and storage root to be passed as flags
