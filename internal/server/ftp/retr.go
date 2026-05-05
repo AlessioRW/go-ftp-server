@@ -2,7 +2,7 @@ package ftp
 
 import (
 	"io"
-	"log/slog"
+	"log"
 	"os"
 	"path/filepath"
 )
@@ -16,14 +16,11 @@ func (c *Conn) retr(args []string) {
 	path := filepath.Join(c.rootDir, c.workDir, args[0])
 	file, err := os.Open(path)
 	if err != nil {
-		slog.Error(
-			"failed to open file",
-			"path", path,
-			"error", err,
-		)
+		log.Print("ERROR failed to open file '"+path+"': ", err)
 		c.respond(status550)
+		return
 	}
-	c.respond(status150)
+	defer file.Close()
 
 	// open new connetion to client
 	dataConn, err := c.dataConnect()
@@ -33,16 +30,15 @@ func (c *Conn) retr(args []string) {
 	}
 	defer dataConn.Close()
 
+	c.respond(status150)
+
 	// write requested file to client
-	// wondering if this data is sent progessive
 	_, err = io.Copy(dataConn, file)
 	if err != nil {
-		slog.Error("failed to copy file to writer")
-		// set as 451, code example had 425
+		log.Print("ERROR failed to copy file to writer: ", err)
 		c.respond(status451)
 		return
 	}
 
-	io.WriteString(dataConn, c.EOL())
 	c.respond(status226)
 }

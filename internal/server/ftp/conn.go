@@ -1,6 +1,7 @@
 package ftp
 
 import (
+	"log"
 	"net"
 )
 
@@ -22,4 +23,12 @@ func NewConn(c net.Conn, path string) *Conn {
 		rootDir: path,
 		workDir: "/",
 	}
+}
+
+func (c *Conn) closePassiveListener() {
+	err := c.passiveListener.Close()
+	if err != nil {
+		log.Print("error closing passive listener: ", err)
+	}
+	c.passiveListener = nil
 }

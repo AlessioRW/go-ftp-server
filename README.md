@@ -12,11 +12,11 @@ If you're interested in writing your own Golang FTP server, it's an excellent st
   - [ ] allow port and storage root to be passed as flags
   - [ ] testing
     - [ ] note -> since net uses file writes for response this can be mocked and caught
-  - [ ] implement passive mode (PASV)
+  - [x] implement passive mode (PASV)
     - [x] implement extended passive mode (EPSV)
-  - [ ] implement IPv6 in EPRT
-  - [ ] CWD bounds, restrict file system access
-    - [ ] deny paths which evaulate outside of storage root 
+  - [x] implement LIST correctly
+  - [x] implement IPv6 in EPRT
+  - [x] CWD bounds, restrict file system access
   - [ ] users and passwords?
   - [ ] containerize
   - [x] rename go module to not be 'music-server'

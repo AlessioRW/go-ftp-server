@@ -2,7 +2,7 @@ package ftp
 
 import (
 	"bufio"
-	"log/slog"
+	"log"
 	"strings"
 )
 
@@ -13,17 +13,14 @@ func Serve(c *Conn) {
 	// loop over tcp conn and listen for commands
 	s := bufio.NewScanner(c.conn)
 	for s.Scan() {
+
 		input := strings.Fields(s.Text())
 		if len(input) == 0 {
 			continue
 		}
 
 		command, args := input[0], input[1:]
-		slog.Info(
-			"recieved command",
-			"command", command,
-			"args", args,
-		)
+		log.Print("command << ", s.Text())
 
 		switch command {
 		case "CWD": // cd with client connection
@@ -33,7 +30,7 @@ func Serve(c *Conn) {
 		case "LIST": // ls files in wd, may need different implementation
 			c.list(args)
 		case "NLST": // simple ls files in wd
-			c.list(args)
+			c.nlst(args)
 		case "PORT": // sets client's data channel address
 			c.port(args)
 		case "EPRT": // sets client's data channel address, supports ipv6
@@ -46,9 +43,14 @@ func Serve(c *Conn) {
 			c.size(args)
 		case "TYPE": // set data type expected by client
 			c.setDataType(args)
-		case "PASV": // set client to use passive mode (NOTE: find client to test PASV with)
-			c.respond(status502)
-			// c.pasv(args)
+		// case "FEAT": // set data type expected by client
+		// 	c.feat()
+		case "SYST": // set data type expected by client
+			c.syst()
+		// case "STAT": // set data type expected by client
+		// 	c.stat()
+		case "PASV": // set client to use passive mode
+			c.pasv()
 		case "EPSV": // set client to use extended passive mode
 			c.epsv()
 		case "QUIT": // close connection
@@ -61,9 +63,6 @@ func Serve(c *Conn) {
 	}
 
 	if s.Err() != nil {
-		slog.Error(
-			"error scanning connection",
-			"errror", s.Err(),
-		)
+		log.Print("ERROR scanning connection: ", s.Err())
 	}
 }

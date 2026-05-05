@@ -2,7 +2,7 @@ package ftp
 
 import (
 	"fmt"
-	"log/slog"
+	"log"
 	"os"
 	"path/filepath"
 )
@@ -20,7 +20,7 @@ func (c *Conn) size(args []string) {
 		if err == os.ErrNotExist {
 			c.respond(status550)
 		} else {
-			slog.Error("failed to read file", "error", err)
+			log.Print("ERROR failed to read file: ", err)
 			c.respond(status451)
 		}
 		return

@@ -3,7 +3,7 @@ package server
 import (
 	"fmt"
 	"go-ftp-server/internal/server/ftp"
-	"log/slog"
+	"log"
 	"net"
 	"os"
 	"path/filepath"
@@ -16,15 +16,15 @@ func InitServer() {
 	srv := fmt.Sprintf(":%d", port)
 	listener, err := net.Listen("tcp", srv)
 	if err != nil {
-		slog.Error("failed to create listener", "port", port, "error", err)
+		log.Print("ERROR failed to create listener: ", err)
 		os.Exit(1)
 	}
 
-	slog.Info("server listening", "port", port)
+	log.Print("server listening on port ", port)
 	for {
 		conn, err := listener.Accept()
 		if err != nil {
-			slog.Error("failed to accept connection", "error", err)
+			log.Print("ERROR failed to accept connection: ", err)
 			continue
 		}
 
@@ -36,7 +36,7 @@ func handleConn(c net.Conn) {
 	defer c.Close()
 	absPath, err := filepath.Abs(rootDir)
 	if err != nil {
-		slog.Error("failed to get absolute path", "error", err)
+		log.Print("ERROR failed to get absolute path: ", err)
 		return
 	}
 	ftp.Serve(ftp.NewConn(c, absPath))

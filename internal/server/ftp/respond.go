@@ -2,20 +2,25 @@ package ftp
 
 import (
 	"fmt"
-	"log/slog"
+	"log"
 )
 
 // standard FTP responce codes
 // see https://en.wikipedia.org/wiki/List_of_FTP_server_return_codes
 const (
-	status150 = "150 command status okay; about to open data connection."
+	status125 = "125 Data connection already open"
+	status150 = "150 Opening data connection"
 	status200 = "200 Command okay."
-	status213 = "213 %v"
+	status211 = "211-%v211 End" // feat, stat (specified following hypen)
+	status213 = "213 %v"        // size
+	status215 = "215 %v"        // syst
 	status220 = "220 Service ready for new user."
 	status221 = "221 Service closing control connection."
-	status226 = "226 Closing data connection. Requested file action successful."
+	status226 = "226 Requested file action successful"
+	status227 = "227 Entering Passive Mode (%v,%v,%v,%v,%v,%v)."
 	status229 = "229 Entering Extended Passive Mode (|||%v|)."
 	status230 = "230 User %s logged in, proceed."
+	status250 = "250 Directory successfully changed."
 	status257 = "257 \"%v\" is the current directory"
 	status425 = "425 Can't open data connection."
 	status426 = "426 Connection closed; transfer aborted."
@@ -27,21 +32,13 @@ const (
 )
 
 func (c *Conn) respond(s string) {
-	slog.Info(
-		"sending response",
-		"response", s,
-	)
+	log.Print("response >> ", s)
 
 	// write response to client (via net connection writer)
 	// net package nicely handles this for you :)
 	_, err := fmt.Fprint(c.conn, s, c.EOL())
-
 	if err != nil {
-		slog.Error(
-			"failed to send response",
-			"response", s,
-			"error", err,
-		)
+		log.Print("ERROR failed to send response: ", err)
 	}
 }
 

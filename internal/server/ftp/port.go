@@ -3,7 +3,7 @@ package ftp
 import (
 	"errors"
 	"fmt"
-	"log/slog"
+	"log"
 	"strconv"
 	"strings"
 )
@@ -21,7 +21,6 @@ func (c *Conn) port(args []string) {
 		c.respond(status501)
 		return
 	}
-	// slog.Info("DEBUG::PORT", "args", args)
 
 	dp, err := dataPortFromArgs(strings.Split(args[0], ","))
 	if err != nil {
@@ -39,7 +38,7 @@ func dataPortFromArgs(addr []string) (*dataPort, error) {
 
 	if len(addr) != 6 {
 		err := errors.New("invlaid address argument, length should be 6")
-		slog.Error("failed to form data port", "error", err)
+		log.Print("ERROR failed to form data port: ", err)
 		return nil, err
 	}
 
@@ -51,12 +50,12 @@ func dataPortFromArgs(addr []string) (*dataPort, error) {
 
 	p1, err := strconv.Atoi(addr[4])
 	if err != nil {
-		slog.Error("failed to convert port byte 1 to int", "error", err)
+		log.Print("ERROR failed to convert port byte 1 to int: ", err)
 		return nil, err
 	}
 	p2, err := strconv.Atoi(addr[5])
 	if err != nil {
-		slog.Error("failed to convert port byte 2 to int", "error", err)
+		log.Print("ERROR failed to convert port byte 2 to int: ", err)
 		return nil, err
 	}
 	dp.port = (p1 * 256) + p2

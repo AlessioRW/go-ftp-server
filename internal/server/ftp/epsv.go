@@ -2,21 +2,18 @@ package ftp
 
 import (
 	"fmt"
-	"log/slog"
+	"log"
 	"net"
 )
 
-// TODO: read how EPSV actually provides the connection
-// currently assuming it just opens a new ftp server
 func (c *Conn) epsv() {
 	if c.passiveListener != nil {
-		c.passiveListener.Close()
-		c.passiveListener = nil
+		c.closePassiveListener()
 	}
 
 	srv, err := net.Listen("tcp", ":0")
 	if err != nil {
-		slog.Error("failed to create passive listener", "error", err)
+		log.Print("ERROR failed to create passive listener:  ", err)
 		c.respond(status425)
 		return
 	}

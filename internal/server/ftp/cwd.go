@@ -1,7 +1,7 @@
 package ftp
 
 import (
-	"log/slog"
+	"log"
 	"os"
 	"path/filepath"
 )
@@ -14,13 +14,13 @@ func (c *Conn) cwd(args []string) {
 	}
 
 	// form workdir, validate, and set
-	workDir := filepath.Join(c.workDir, args[0])
-	_, err := os.Stat(filepath.Join(c.rootDir, workDir))
+	workDir := filepath.Join(c.rootDir, args[0])
+	_, err := os.Stat(workDir)
 	if err != nil {
-		slog.Error("failed to read new path", "error", err)
+		log.Print("ERROR failed to read new path: ", err)
 		c.respond(status550)
 		return
 	}
-	c.workDir = workDir
-	c.respond(status200)
+	c.workDir = args[0]
+	c.respond(status250)
 }

@@ -1,7 +1,7 @@
 package ftp
 
 import (
-	"log/slog"
+	"log"
 	"strconv"
 	"strings"
 )
@@ -12,7 +12,6 @@ import (
 func (c *Conn) eprt(args []string) {
 	splitArgs := filterEmpty(strings.Split(args[0], "|"))
 	if len(splitArgs) != 3 {
-		slog.Error("eprt command does not have correct number of args")
 		c.respond(status501)
 		return
 	}
@@ -28,13 +27,11 @@ func (c *Conn) eprt(args []string) {
 			return
 		}
 	case "2":
-		// TODO: implement IPv6
-		// dp, err = parseIPv6(splitArgs[1:])
-		// if err != nil {
-		// 	c.respond(status501)
-		// 	return
-		// }
-		c.respond(status504)
+		dp, err = parseIPv6(splitArgs[1:])
+		if err != nil {
+			c.respond(status501)
+			return
+		}
 	default:
 		c.respond(status501)
 	}
@@ -51,7 +48,23 @@ func parseIPv4(args []string) (*dataPort, error) {
 
 	port, err := strconv.Atoi(args[1])
 	if err != nil {
-		slog.Error("failed to convert port to int", "error", err)
+		log.Print("ERROR failed to convert port to int: ", err)
+		return nil, err
+	}
+	dp.port = port
+
+	return &dp, nil
+}
+
+func parseIPv6(args []string) (*dataPort, error) {
+	var dp dataPort
+
+	// TODO: handle more than localhost
+	dp.ip = "::1"
+
+	port, err := strconv.Atoi(args[1])
+	if err != nil {
+		log.Print("ERROR failed to convert port to int", err)
 		return nil, err
 	}
 	dp.port = port
