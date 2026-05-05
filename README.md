@@ -12,11 +12,15 @@ I've had trouble with my implementation when using termscp and Cyberduck as the 
   - [ ] allow port and storage root to be passed as flags
   - [ ] testing
     - [ ] note -> since net uses file writes for response this can be mocked and caught
-  - [x] implement passive mode (PASV)
-    - [x] implement extended passive mode (EPSV)
-  - [x] implement LIST correctly
-  - [x] implement IPv6 in EPRT
   - [x] CWD bounds, restrict file system access
   - [ ] users and passwords?
   - [ ] containerize
   - [x] rename go module to not be 'music-server'
+  - [ ] implement commands:
+    - [x] passive mode (PASV)
+      - [x] extended passive mode (EPSV)
+    - [x] LIST
+    - [x] IPv6 in EPRT 
+    - [ ] STAT
+    - [ ] FEAT
+    - [ ] DELE
