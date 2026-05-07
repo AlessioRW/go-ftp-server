@@ -21,8 +21,8 @@ func (c *Conn) pasv() {
 	}
 	c.passiveListener = srv
 
-	// TODO: add code to determine IP
-	ip := "127.0.0.1"
+	// TODO: make this less hackey
+	ip := getMachineIP()
 	sIP := strings.Split(ip, ".")
 
 	newPort := srv.Addr().(*net.TCPAddr).Port
@@ -53,4 +53,14 @@ func getPortSegments(port int) (int, int, error) {
 	}
 
 	return int(p1), int(p2), nil
+}
+
+func getMachineIP() string {
+	conn, err := net.Dial("udp", "8.8.8.8:80")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer conn.Close()
+	localAddress := conn.LocalAddr().(*net.UDPAddr)
+	return localAddress.IP.String()
 }
