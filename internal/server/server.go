@@ -2,6 +2,7 @@ package server
 
 import (
 	"fmt"
+	"go-ftp-server/internal/config"
 	"go-ftp-server/internal/server/ftp"
 	"log"
 	"net"
@@ -9,18 +10,15 @@ import (
 	"path/filepath"
 )
 
-const port = 21
-const rootDir = "store"
-
 func InitServer() {
-	srv := fmt.Sprintf(":%d", port)
+	srv := fmt.Sprintf(":%d", config.Config.HostPort)
 	listener, err := net.Listen("tcp", srv)
 	if err != nil {
 		log.Print("ERROR failed to create listener: ", err)
 		os.Exit(1)
 	}
 
-	log.Print("server listening on port ", port)
+	log.Print("server listening on port ", config.Config.HostPort)
 	for {
 		conn, err := listener.Accept()
 		if err != nil {
@@ -34,7 +32,7 @@ func InitServer() {
 
 func handleConn(c net.Conn) {
 	defer c.Close()
-	absPath, err := filepath.Abs(rootDir)
+	absPath, err := filepath.Abs(config.Config.StorageRoot)
 	if err != nil {
 		log.Print("ERROR failed to get absolute path: ", err)
 		return

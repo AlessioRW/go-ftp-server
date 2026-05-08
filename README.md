@@ -9,7 +9,7 @@ Originally following [this article](https://medium.com/better-programming/how-to
 I've had trouble with my implementation when using termscp and Cyberduck as the client but not had any issues with using ncftp on the command line.
 
 ## TODO
-  - [ ] allow port and storage root to be passed as flags
+  - [x] allow port and storage root to be passed as flags
   - [ ] testing
     - [ ] note -> since net uses file writes for response this can be mocked and caught
   - [x] CWD bounds, restrict file system access
